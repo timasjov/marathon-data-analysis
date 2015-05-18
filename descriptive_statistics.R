@@ -11,3 +11,10 @@ t.test(data$age.group.number, data$place)
 
 data$country.number = as.numeric(data$country)
 t.test(data$country.number, data$place)
+
+
+#Men vs women
+men = data[is.na(data[,"L.place"]),]
+women = data[!is.na(data[,"L.place"]),]
+
+t.test(men$time, women$time)
