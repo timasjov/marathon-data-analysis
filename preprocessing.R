@@ -21,6 +21,7 @@ data[, "time"]=sapply(data[, "time"], FUN=function(x){charToSec(x)})
 
 #Data imputation(currently we just leave rows with missing data out)
 data = data[rowSums(is.na(data[,paste("split.",1:6,sep="")]))==0,]
+colnames(splits)[1] = "start"
 
 #Write out preprocessed data
 write.table(data, "data/processedData.txt", sep="\t", row.names=F) 
