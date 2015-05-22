@@ -18,8 +18,6 @@ boxplot(data$time~data$country)
 ### Result: finishing time is significantly different between countries
 
 ## Chi-square test
-data$age.group2 <- as.numeric(substr(data$age.group, 2, 3))
-
 tbl <- table(data$gender, data$age.group2)
 ctbl <- cbind(tbl[,"17"]+tbl[,"20"],
                 tbl[,"21"],
