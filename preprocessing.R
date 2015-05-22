@@ -23,6 +23,10 @@ data[, "time"]=sapply(data[, "time"], FUN=function(x){charToSec(x)})
 data = data[rowSums(is.na(data[,paste("split.",1:6,sep="")]))==0,]
 colnames(splits)[1] = "start"
 
+#Add gender
+data[is.na(data[,"L.place"]),]$gender <- "male"
+data[!is.na(data[,"L.place"]),]$gender <- "female"
+
 #Write out preprocessed data
 write.table(data, "data/processedData.txt", sep="\t", row.names=F) 
 

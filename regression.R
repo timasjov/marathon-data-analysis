@@ -20,7 +20,3 @@ rownames(form) <- gsub("oup", "oup == ", rownames(form) )
 rownames(form)[1] <- "Base"
 cat(paste( form, paste("(", rownames(form), ")" ), sep="*", collapse="+\n") )
 
-#Fit model using M5P algorithm
-fit <- M5P(timeCategory ~ particip.time + s.nr, data=data)
-plot(fit)
-summary(fit)

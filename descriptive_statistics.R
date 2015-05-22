@@ -1,10 +1,6 @@
 #Read in data
 data <- read.table("data/processedData.txt", header=T)
 
-data$gender <- 0
-data[is.na(data[,"L.place"]),]$gender <- "male"
-data[!is.na(data[,"L.place"]),]$gender <- "female"
-
 # Statistical analysis
 var.test(data$time~data$gender)
 ### Result: unequal variance
@@ -56,3 +52,36 @@ speedLastSplit <- metersInMin(splits$finish / (mean(data$time) - mean(data$split
 speeds <- c(speedSplit1, speedSplit2, speedSplit3, speedSplit4, speedSplit5, speedSplit6, speedLastSplit)
 
 plot(as.vector(dist,mode='numeric')[2:8], speeds, type = "l", col="red", xlab="Splits (km)", ylab = "Speed (meters/min)")
+
+
+#alternative
+splits = read.table("data/splits.txt", header=T)
+
+#Find speed based on given subset of data
+findSpeeds = function(x, splits){
+  speed = mean(splits[,1]  / (x[,1]/3600))
+  speeds = c(speed, speed)
+  for(i in 2:length(splits)){
+    speed = mean(splits[,i] / ((x[,i] - x[,i-1])/3600))
+    speeds = c(speeds, speed, speed)
+  }
+  return(speeds)
+}
+
+#Calculate speeds for each subset
+overallSpeeds = findSpeeds(data[,c(paste("split.",1:6,sep=""),"time")], splits[-1])
+menSpeeds = findSpeeds(data[data[,"gender"]=="male",c(paste("split.",1:6,sep=""),"time")], splits[-1])
+womenSpeeds = findSpeeds(data[data[,"gender"]=="female",c(paste("split.",1:6,sep=""),"time")], splits[-1])
+
+#Draw plots
+xValues = c(0,sort(rep(1:6, 2)),7)
+plot(xValues, overallSpeeds, type = "l", col="red", xlab="Splits", ylab = "Speed (km/h)", 
+     xaxt="n", main="Average speeds between splits")
+axis(1, at=0:7, labels= c("Start", 1:6,"Finish"))
+
+#By gender
+plot(xValues, menSpeeds, type = "l", col="red", xlab="Splits", ylab = "Speed (km/h)", 
+     xaxt="n", main="Average speeds between splits by gender", ylim=c(18,28))
+lines(xValues, womenSpeeds, col="blue")
+axis(1, at=0:7, labels= c("Start", 1:6,"Finish"))
+legend("topleft", legend = c("Men","Women"), lty=c(1,1), lwd=c(2.5,2.5), col=c("red","blue"), cex=.7)
