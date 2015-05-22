@@ -1,21 +1,45 @@
 #Read in data
-data = read.table("data/processedData.txt", header=T)
+data <- read.table("data/processedData.txt", header=T)
 
-#Find correlation between attributes using t-test
-t.test(data$s.nr, data$place)
+data$gender <- 0
+data[is.na(data[,"L.place"]),]$gender <- "male"
+data[!is.na(data[,"L.place"]),]$gender <- "female"
 
-t.test(data$particip.time, data$place)
+# Statistical analysis
+var.test(data$time~data$gender)
+### Result: unequal variance
 
-data$age.group.number = as.numeric(substr(data$age.group, 2, 3))
-t.test(data$age.group.number, data$place)
+## t-test
+t.test(data$time~data$gender, var.equal = F)
+### Result: finishing time is significantly different between men and women
 
-data$country.number = as.numeric(data$country)
-t.test(data$country.number, data$place)
+## ANOVA
+summary(aov(data$time~data$age.group2))
+boxplot(data$time~data$age.group2)
+### Result: finishing time is significantly different between agegroups
+summary(aov(data$time~data$country))
+boxplot(data$time~data$country)
+### Result: finishing time is significantly different between countries
 
-men = data[is.na(data[,"L.place"]),]
-women = data[!is.na(data[,"L.place"]),]
-t.test(men$time, women$time)
+## Chi-square test
+data$age.group2 <- as.numeric(substr(data$age.group, 2, 3))
 
+tbl <- table(data$gender, data$age.group2)
+ctbl <- cbind(tbl[,"17"]+tbl[,"20"],
+                tbl[,"21"],
+                tbl[,"35"],
+                tbl[,"40"],
+                tbl[,"45"],
+                tbl[,"50"]+tbl[,"55"]+tbl[,"60"]+tbl[,"65"]+tbl[,"70"]+tbl[,"75"])
+colnames(ctbl) = c("[15-21)","[21-22)","[22-36)","[36-41)","[41-46)","[46-76)")
+
+chisq.test(ctbl)
+barplot(ctbl, col = c("red","blue"), legend = T)
+### Result: ratio of agegroups do not differ among men and women
+
+
+## Correlation
+cor(data$time, data$age.group2, use = "complete.obs", method = "kendall")
 
 
 #Find average speeds between splits and create plots (meters in sec)
