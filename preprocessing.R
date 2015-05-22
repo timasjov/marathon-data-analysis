@@ -27,6 +27,9 @@ data$gender = 0
 data[is.na(data[,"L.place"]),]$gender <- "male"
 data[!is.na(data[,"L.place"]),]$gender <- "female"
 
+#Add unisex agegroup
+data$age.group2 <- as.numeric(substr(data$age.group, 2, 3))
+
 #Write out preprocessed data
 write.table(data, "data/processedData.txt", sep="\t", row.names=F) 
 
