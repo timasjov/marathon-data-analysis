@@ -37,23 +37,6 @@ barplot(ctbl, col = c("red","blue"), legend = T)
 ## Correlation
 cor(data$time, data$age.group2, use = "complete.obs", method = "kendall")
 
-#Find average speeds between splits and create plots (meters in min)
-metersInMin <- function(x) {
-  return(x * 1000 * 60)
-}
-
-speedSplit1 <- metersInMin(splits$matu  / mean(data$split.1))
-speedSplit2 <- metersInMin(splits$ande / (mean(data$split.2) - mean(data$split.1)))
-speedSplit3 <- metersInMin(splits$puka / (mean(data$split.3) - mean(data$split.2)))
-speedSplit4 <- metersInMin(splits$astuvere / (mean(data$split.4) - mean(data$split.3)))
-speedSplit5 <- metersInMin(splits$palu / (mean(data$split.5) - mean(data$split.4)))
-speedSplit6 <- metersInMin(splits$hellenurme / (mean(data$split.6) - mean(data$split.5)))
-speedLastSplit <- metersInMin(splits$finish / (mean(data$time) - mean(data$split.6)))
-speeds <- c(speedSplit1, speedSplit2, speedSplit3, speedSplit4, speedSplit5, speedSplit6, speedLastSplit)
-
-plot(as.vector(dist,mode='numeric')[2:8], speeds, type = "l", col="red", xlab="Splits (km)", ylab = "Speed (meters/min)")
-
-
 #alternative
 splits = read.table("data/splits.txt", header=T)
 
