@@ -96,21 +96,22 @@ meanClass = function(data, class){
   return(paste(hours,":",minutes,sep=""))
 }
 
-x = c(as.character(sort(unique(data$age.group))),"Total")
-y = as.POSIXct(sapply(x, FUN = function(x){meanClass(data, x)}), format="%H:%M")
+tab = table(data$age.group)
+x = c(paste(names(tab),"(" ,tab, ")",sep=""), paste("Total(",sum(tab),")", sep=""))
+y = as.POSIXct(sapply(c(names(tab),"Total"), FUN = function(x){meanClass(data, x)}), format="%H:%M")
 xy=data.frame(x, y)
-line = data.frame(x[c(1,length(x))], rep(y[length(y)], 2) )
-names(line) = c("x","y")
+
 
 ggplot(xy, aes(x=xy$x, y=xy$y, width=0.5)) +
   geom_bar(stat="identity", 
            fill=c(rep("deepskyblue",length(xy$y)-1), "chartreuse"))+
   geom_text(aes(label=substr(xy$y,13,16)), vjust=-1, size=4) +
-  xlab("Age group") + ylab("Time") +
+  xlab("Age groups with counts") + ylab("Time") +
   ggtitle("Average finish times per age group")+ 
   theme_bw()+
   theme(panel.grid.major.x=element_blank(),
-        plot.title = element_text(lineheight=.8, face="bold", vjust=1))+
+        plot.title = element_text(lineheight=.8, face="bold", vjust=1),
+        axis.text.x=element_text(angle=45, vjust = 0.7))+
   scale_y_datetime(limits=c(as.POSIXct('0:00',format="%H:%M"),
                             as.POSIXct('6:00',format="%H:%M")))+
   geom_hline(aes(yintercept = as.numeric(y[length(y)])), colour = "chartreuse",size=0.8)
