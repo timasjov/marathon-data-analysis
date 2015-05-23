@@ -5,10 +5,10 @@ data = read.table("data/processedData.txt", header=T)
 data$timeCategory <- ntile(data$time, 10)
 
 #Split start numbers into 10 groups
-data$sNrCategory <- ntile(data$s.nr, 10)
+data$sNrCategory <- ntile(data$s.nr, 5)
 
 #Split number of participations into 10 groups
-data$participTimeCategory <- ntile(data$particip.time, 10)
+data$participTimeCategory <- ntile(data$particip.time, 5)
 
 #Split final place into 10 groups
 data$placeCategory <- ntile(data$place, 10)
@@ -29,15 +29,9 @@ data[data$age.group2 %in% c("50", "55", "60"), "ageCategory"] <- "50-60"
 data[data$age.group2 %in% c("65", "70", "75"), "ageCategory"] <- "65+"
 
 
-#Fit model using ANOVA algorithm
-fit <- rpart(timeCategory ~ particip.time + s.nr, data=data)
-printcp(fit)
-summary(fit)
-rpart.plot(fit, type=3, extra=1)
-
-
 #Fit model using using linear model
-lmfit <- lm(time ~ country + age.group, data=data)
+lmfit <- lm(timeCategory ~ ageCategory, data=data)
+plot(lmfit)
 form <- as.matrix(coef(lmfit))
 rownames(form) <- gsub("try", "try == ", rownames(form) )
 rownames(form) <- gsub("oup", "oup == ", rownames(form) )
