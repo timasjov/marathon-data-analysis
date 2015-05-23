@@ -1,3 +1,5 @@
+# Before running in R Studio: Session -> Set Working Directory -> To Source File Location
+
 install.packages("dplyr", dependencies = TRUE)
 install.packages("rpart", dependencies = TRUE)
 install.packages("rpart.plot", dependencies = TRUE)
