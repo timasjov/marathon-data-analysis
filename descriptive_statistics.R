@@ -2,20 +2,33 @@
 data <- read.table("data/processedData.txt", header=T)
 
 # Statistical analysis
-var.test(data$time~data$gender)
-### Result: unequal variance
 
 ## t-test
-t.test(data$time~data$gender, var.equal = F)
-### Result: finishing time is significantly different between men and women
+t.test(data$time~data$gender)
+### Result: finishing time is significantly different between genders
+ggplot(data, aes(x = gender, y = time, fill = gender)) +
+  geom_boxplot() +
+  labs(title = "Time by gender", y = "time (sec)")
+
+t.test(data$time~data$nationality)
+### Result: finishing time is significantly different between Estonians and foreigners
+ggplot(data, aes(x = nationality, y = time, fill = nationality)) +
+  geom_boxplot() +
+  labs(title = "Time by nationality", y = "time (sec)")
 
 ## ANOVA
 summary(aov(data$time~data$age.group2))
-boxplot(data$time~data$age.group2)
-### Result: finishing time is significantly different between agegroups
+### Result: finishing time is significantly different between age groups
+ggplot(data, aes(x = factor(age.group2), y = time, fill = gender)) +
+  geom_boxplot() +
+  labs(title = "Time by age group", x = "age group", y = "time (sec)")
+
 summary(aov(data$time~data$country))
-boxplot(data$time~data$country)
 ### Result: finishing time is significantly different between countries
+ggplot(data, aes(x = factor(country), y = time, fill = country)) +
+  geom_boxplot() +
+  labs(title = "Time by countries", x = "countries", y = "time (sec)") +
+  theme(axis.text.x = element_text(angle = 90))
 
 ## Chi-square test
 tbl <- table(data$gender, data$age.group2)
@@ -28,9 +41,12 @@ ctbl <- cbind(tbl[,"17"]+tbl[,"20"],
 colnames(ctbl) = c("[15-21)","[21-22)","[22-36)","[36-41)","[41-46)","[46-76)")
 
 chisq.test(ctbl)
-barplot(ctbl, col = c("red","blue"), legend = T)
-### Result: ratio of agegroups do not differ among men and women
+### Result: no significant difference in frequency distribution of age groups between genders
+ggplot(data[data$age.group2 <= 50,], aes(x = factor(age.group2), fill = gender)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Cyclists per age group", x = "age group")
 
+barplot(ctbl, col = c("red","blue"), legend = T)
 
 ## Correlation
 cor(data$time, data$age.group2, use = "complete.obs", method = "kendall")
