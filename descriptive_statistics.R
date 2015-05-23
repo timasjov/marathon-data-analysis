@@ -42,7 +42,7 @@ colnames(ctbl) = c("[15-21)","[21-22)","[22-36)","[36-41)","[41-46)","[46-76)")
 
 chisq.test(ctbl)
 ### Result: no significant difference in frequency distribution of age groups between genders
-ggplot(data[data$age.group2 <= 50,], aes(x = factor(age.group2), fill = gender)) +
+ggplot(data, aes(x = factor(age.group2), fill = gender)) +
   geom_bar(position = "dodge") +
   labs(title = "Cyclists per age group", x = "age group")
 
