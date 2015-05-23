@@ -10,19 +10,19 @@ rownames(form)[1] <- "Base"
 cat(paste( form, paste("(", rownames(form), ")" ), sep="*", collapse="+\n") )
 
 #Decision tree
-fit <- rpart(placeCategory ~ ageCategory + nationality + participTimeCategory, method="class", minbucket = 75, minsplit = 75, cp=-0.5, data=data)
-colors <- c("pink", "palegreen3", "yellow", "lightblue", "blue", "violet", "orange", "cyan", "bisque", "lightCoral")
+fit <- rpart(timeCategory ~ ageCategory + nationality + participTimeCategory, method="class", minbucket = 75, minsplit = 75, cp=-0.5, data=data)
+colors <- c("pink", "palegreen3", "yellow", "LightSkyBlue", "blue", "orange", "orange", "cyan", "bisque", "OrangeRed ")
 boxcols <- (colors)[fit$frame$yval]
 prp(fit, type=3, extra=100, faclen = 0, cex = 0.75, box.col = boxcols)
 legend("bottomright", xpd = TRUE, inset = c(0, 0), cex = 0.7, ncol=3, fill = colors, title="Final place",
-       legend = c("1-306", 
-                  "307-612", 
-                  "613-918", 
-                  "919-1223", 
-                  "1224-1529", 
-                  "1530-1835", 
-                  "1836-2140",
-                  "2141-2446",
-                  "2447-2752",
-                  "2753-3057"
+       legend = c("2:29-2:59", 
+                  "3:00-3:11", 
+                  "3:12-3:21", 
+                  "3:22-3:31", 
+                  "3:32-3:42", 
+                  "3:43-3:53", 
+                  "3:54-4:04",
+                  "4:05-4:19",
+                  "4:20-4:39",
+                  "4:40-6:26"
                   ))
