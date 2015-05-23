@@ -36,7 +36,7 @@ barplot(ctbl, col = c("red","blue"), legend = T)
 cor(data$time, data$age.group2, use = "complete.obs", method = "kendall")
 
 #alternative
-splits = read.table("data/splits.txt", header=T)
+splits <- read.table("data/splits.txt", header=T)
 
 #Find speed based on given subset of data
 findSpeeds = function(x, splits){
@@ -58,11 +58,11 @@ womenSpeeds = findSpeeds(data[data[,"gender"]=="female",c(paste("split.",1:6,sep
 xValues = c(0,sort(rep(1:6, 2)),7)
 plot(xValues, overallSpeeds, type = "l", col="red", xlab="Splits", ylab = "Speed (km/h)", 
      xaxt="n", main="Average speeds between splits")
-axis(1, at=0:7, labels= c("Start", 1:6,"Finish"))
+axis(1, at=0:7, labels= colnames(splits))
 
 #By gender
 plot(xValues, menSpeeds, type = "l", col="red", xlab="Splits", ylab = "Speed (km/h)", 
      xaxt="n", main="Average speeds between splits by gender", ylim=c(18,28))
 lines(xValues, womenSpeeds, col="blue")
-axis(1, at=0:7, labels= c("Start", 1:6,"Finish"))
+axis(1, at=0:7, labels= colnames(splits))
 legend("topleft", legend = c("Men","Women"), lty=c(1,1), lwd=c(2.5,2.5), col=c("red","blue"), cex=.7)

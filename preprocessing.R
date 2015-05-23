@@ -35,7 +35,8 @@ write.table(data, "data/processedData.txt", sep="\t", row.names=F)
 
 #Write out split distances
 dist = data.frame(0.0, 12.3, 22.9, 36.5, 50.6, 66.3, 77.2, 89.0)
-colnames(dist)=c("start", "matu", "ande", "puka", "astuvere", "palu", "hellenurme", "finish")
+splitNames <- c("Start", "Matu", "Ande", "Puka", "Astuvere", "Palu", "Hellenurme", "Finish")
+colnames(dist) <- splitNames
 write.table(dist, "data/distances.txt", sep="\t", row.names=F) 
 
 #Calculate and write out distances between splits
@@ -44,5 +45,5 @@ for(i in 2:8){
   splits <-  c(splits, dist[i] - dist[i-1])
 }
 splits <- as.data.frame(splits)
-colnames(splits)[1] = "start"
+colnames(splits) <- splitNames
 write.table(splits, "data/splits.txt", sep="\t", row.names=F) 
