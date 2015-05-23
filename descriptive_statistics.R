@@ -82,3 +82,35 @@ plot(xValues, menSpeeds, type = "l", col="red", xlab="Splits", ylab = "Speed (km
 lines(xValues, womenSpeeds, col="blue")
 axis(1, at=0:7, labels= colnames(splits))
 legend("topleft", legend = c("Men","Women"), lty=c(1,1), lwd=c(2.5,2.5), col=c("red","blue"), cex=.7)
+
+
+#Average finish times per age group
+meanClass = function(data, class){
+  if(class=="Total"){
+    res = mean(data[, "time"], na.rm=T)
+  }else{
+    res = mean(data[data[,"age.group"]==class, "time"], na.rm=T)
+  }
+  hours = floor(res / 3600)
+  minutes = floor((res - (3600*hours))/60)
+  return(paste(hours,":",minutes,sep=""))
+}
+
+x = c(as.character(sort(unique(data$age.group))),"Total")
+y = as.POSIXct(sapply(x, FUN = function(x){meanClass(data, x)}), format="%H:%M")
+xy=data.frame(x, y)
+line = data.frame(x[c(1,length(x))], rep(y[length(y)], 2) )
+names(line) = c("x","y")
+
+ggplot(xy, aes(x=xy$x, y=xy$y, width=0.5)) +
+  geom_bar(stat="identity", 
+           fill=c(rep("deepskyblue",length(xy$y)-1), "chartreuse"))+
+  geom_text(aes(label=substr(xy$y,13,16)), vjust=-1, size=4) +
+  xlab("Age group") + ylab("Time") +
+  ggtitle("Average finish times per age group")+ 
+  theme_bw()+
+  theme(panel.grid.major.x=element_blank(),
+        plot.title = element_text(lineheight=.8, face="bold", vjust=1))+
+  scale_y_datetime(limits=c(as.POSIXct('0:00',format="%H:%M"),
+                            as.POSIXct('6:00',format="%H:%M")))+
+  geom_hline(aes(yintercept = as.numeric(y[length(y)])), colour = "chartreuse",size=0.8)
