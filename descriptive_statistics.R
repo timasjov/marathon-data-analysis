@@ -34,6 +34,13 @@ ggplot(data, aes(x = factor(countryCategory), y = time, fill = countryCategory))
   labs(title = "Time by countries", x = "countries", y = "time (sec)", fill = "countries") +
   theme(axis.text.x = element_text(angle = 45))
 
+summary(aov(data$time~data$county))
+###Result: finishing time is significantly different between counties
+ggplot(data, aes(x = county, y = time, fill = county)) +
+  geom_boxplot() +
+  labs(title = "Time by counties", x = "county", y = "time (sec)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 ## Chi-square test
 tbl <- table(data$gender, data$age.group2)
 ctbl <- cbind(tbl[,"17"]+tbl[,"20"],
