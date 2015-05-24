@@ -5,9 +5,14 @@ install.packages("rpart", dependencies = TRUE)
 install.packages("rpart.plot", dependencies = TRUE)
 install.packages("fpc", dependencies = TRUE)
 install.packages("ggplot2", dependencies = TRUE)
+install.packages("pheatmap", dependencies = TRUE)
 
 library(dplyr)
 library(rpart)
 library(rpart.plot)
 library(fpc)
 library(ggplot2)
+<<<<<<< HEAD
+=======
+library(pheatmap)
+>>>>>>> 8db103d06b287708e79e90f7b4244364ad8070a3
