@@ -28,7 +28,11 @@ summary(aov(data$time~data$country))
 ggplot(data, aes(x = factor(country), y = time, fill = country)) +
   geom_boxplot() +
   labs(title = "Time by countries", x = "countries", y = "time (sec)") +
-  theme(axis.text.x = element_text(angle = 90))
+  theme(axis.text.x = element_text(angle = 45))
+ggplot(data, aes(x = factor(countryCategory), y = time, fill = countryCategory)) +
+  geom_boxplot() +
+  labs(title = "Time by countries", x = "countries", y = "time (sec)", fill = "countries") +
+  theme(axis.text.x = element_text(angle = 45))
 
 ## Chi-square test
 tbl <- table(data$gender, data$age.group2)
