@@ -35,7 +35,7 @@ countries <- levels(data$country)
 counties <- countries[c(1,3,4,7,8,11,12,14,15,16,18,22,23,24,26,27)]
 data$nationality <- 0
 data[is.element(data$country, counties),]$nationality <- "Estonia"
-data[!is.element(data$country, counties),]$nationality <- "Foreign"
+data[!is.element(data$country, counties),]$nationality <- "foreign"
 
 #Write out preprocessed data
 write.table(data, "data/processedData.txt", sep="\t", row.names=F) 
