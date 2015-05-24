@@ -10,6 +10,7 @@ rownames(form)[1] <- "Base"
 cat(paste( form, paste("(", rownames(form), ")" ), sep="*", collapse="+\n") )
 
 #Decision tree
+data$participTimeCategory = as.factor(data$participTimeCategory)
 fit <- rpart(timeCategory ~ ageCategory + nationality + participTimeCategory, method="class", minbucket = 75, minsplit = 75, cp=-0.5, data=data)
 colors <- c("pink", "palegreen3", "yellow", "LightSkyBlue", "blue", "orange", "orange", "cyan", "bisque", "OrangeRed ")
 boxcols <- (colors)[fit$frame$yval]
@@ -26,3 +27,10 @@ legend("bottomright", xpd = TRUE, inset = c(0, 0), cex = 0.7, ncol=3, fill = col
                   "4:20-4:39",
                   "4:40-6:26"
                   ))
+legend("bottomleft", xpd = TRUE, inset = c(0.45, 0), cex = 0.7, ncol=3, title="Participation (times)",
+       legend = c("1: 1 - 2",
+                  "2: 3 - 4",
+                  "3: 4 - 5",
+                  "4: 6 - 9",
+                  "5: 9 - 17"
+       ))
