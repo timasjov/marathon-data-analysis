@@ -54,7 +54,7 @@ data$countryCategory <- data$country
 levels(data$countryCategory) <- c(levels(data$countryCategory), "Eesti")
 data[data$country %in% c(
   "Harju", "Hiiumaa", "Ida-Viru", "Jõgeva", "Järvamaa", "Lääne-Viru", "Läänemaa", 
-  "Pärnu", "Rapla", "Saaremaa", "Tallinn", "Tartu", "Valga", "Viljandi"), "countryCategory"] <- "Eesti"
+  "Pärnu", "Rapla", "Saaremaa", "Tallinn", "Tartu", "Valga", "Viljandi", "Võru", "Põlva"), "countryCategory"] <- "Eesti"
 
 #Combine age categories
 data$ageCategory <- data$age.group2
