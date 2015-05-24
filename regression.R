@@ -1,40 +1,28 @@
 #Read in data
 data = read.table("data/processedData.txt", header=T)
 
-#Split final times into 10 groups
-data$timeCategory <- ntile(data$time, 10)
-
-#Split start numbers into 10 groups
-data$sNrCategory <- ntile(data$s.nr, 5)
-
-#Split number of participations into 10 groups
-data$participTimeCategory <- ntile(data$particip.time, 5)
-
-#Split final place into 10 groups
-data$placeCategory <- ntile(data$place, 10)
-
-#Combine all Estonian participants
-data$countryCategory <- data$country
-levels(data$countryCategory) <- c(levels(data$countryCategory), "Eesti")
-data[data$country %in% c(
-  "Harju", "Hiiumaa", "Ida-Viru", "Jõgeva", "Järvamaa", "Lääne-Viru", "Läänemaa", 
-  "Pärnu", "Rapla", "Saaremaa", "Tallinn", "Tartu", "Valga", "Viljandi"), "countryCategory"] <- "Eesti"
-
-#Combine age categories
-data$ageCategory <- data$age.group2
-levels(data$ageCategory) <- c(levels(data$ageCategory), c("17-21", "35-45", "50-60", "65+"))
-data[data$age.group2 %in% c("17", "20", "21"), "ageCategory"] <- "17-21"
-data[data$age.group2 %in% c("35", "40", "45"), "ageCategory"] <- "35-45"
-data[data$age.group2 %in% c("50", "55", "60"), "ageCategory"] <- "50-60"
-data[data$age.group2 %in% c("65", "70", "75"), "ageCategory"] <- "65+"
-
-
 #Fit model using using linear model
-lmfit <- lm(timeCategory ~ ageCategory, data=data)
-plot(lmfit)
+lmfit <- lm(timeCategory ~ ageCategory + countryCategory + sNrCategory + participTimeCategory, data=data)
 form <- as.matrix(coef(lmfit))
 rownames(form) <- gsub("try", "try == ", rownames(form) )
 rownames(form) <- gsub("oup", "oup == ", rownames(form) )
 rownames(form)[1] <- "Base"
 cat(paste( form, paste("(", rownames(form), ")" ), sep="*", collapse="+\n") )
 
+#Decision tree
+fit <- rpart(timeCategory ~ ageCategory + nationality + participTimeCategory, method="class", minbucket = 75, minsplit = 75, cp=-0.5, data=data)
+colors <- c("pink", "palegreen3", "yellow", "LightSkyBlue", "blue", "orange", "orange", "cyan", "bisque", "OrangeRed ")
+boxcols <- (colors)[fit$frame$yval]
+prp(fit, type=3, extra=100, faclen = 0, cex = 0.75, box.col = boxcols)
+legend("bottomright", xpd = TRUE, inset = c(0, 0), cex = 0.7, ncol=3, fill = colors, title="Final place",
+       legend = c("2:29-2:59", 
+                  "3:00-3:11", 
+                  "3:12-3:21", 
+                  "3:22-3:31", 
+                  "3:32-3:42", 
+                  "3:43-3:53", 
+                  "3:54-4:04",
+                  "4:05-4:19",
+                  "4:20-4:39",
+                  "4:40-6:26"
+                  ))
