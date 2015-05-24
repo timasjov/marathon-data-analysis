@@ -36,11 +36,15 @@ ggplot(data, aes(x = factor(countryCategory), y = time, fill = countryCategory))
 
 summary(aov(data$time~data$county))
 ###Result: finishing time is significantly different between counties
-ggplot(data, aes(x = county, y = time, fill = county)) +
+ggplot(data, aes(x = county, y = as.POSIXct(time, tz = "GMT", origin = "2014-09-21"), fill = county)) +
   geom_boxplot() +
-  labs(title = "Time by counties", x = "county", y = "time (sec)") +
+  labs(title = "Time by counties", x = "County", y = "Time") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(panel.grid.major.x=element_blank(),
+        plot.title = element_text(lineheight=.8, face="bold", vjust=1),
+        axis.text.x=element_text(angle=45, vjust = 0.7),
+        legend.position="none") +
+  scale_y_datetime(breaks=date_breaks("30 min"), labels=date_format("%H:%M"))
 
 ## Chi-square test
 tbl <- table(data$gender, data$age.group2)
