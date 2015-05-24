@@ -56,6 +56,11 @@ data[data$country %in% c(
   "Harju", "Hiiumaa", "Ida-Viru", "Jõgeva", "Järvamaa", "Lääne-Viru", "Läänemaa", 
   "Pärnu", "Rapla", "Saaremaa", "Tallinn", "Tartu", "Valga", "Viljandi", "Võru", "Põlva"), "countryCategory"] <- "Eesti"
 
+#Add county
+data$county <- data$country
+levels(data$county) <- c(levels(data$county), "other")
+data$county[!is.element(data$country, counties)] <- "other"
+
 #Combine age categories
 data$ageCategory <- data$age.group2
 levels(data$ageCategory) <- c(levels(data$ageCategory), c("17-21", "35-45", "50-60", "65+"))
