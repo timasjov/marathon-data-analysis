@@ -39,6 +39,7 @@ summary(aov(data$time~data$county))
 ggplot(data, aes(x = county, y = time, fill = county)) +
   geom_boxplot() +
   labs(title = "Time by counties", x = "county", y = "time (sec)") +
+  theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ## Chi-square test
