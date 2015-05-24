@@ -9,6 +9,7 @@ rownames(form) <- gsub("oup", "oup == ", rownames(form) )
 rownames(form)[1] <- "Base"
 cat(paste( form, paste("(", rownames(form), ")" ), sep="*", collapse="+\n") )
 
+data$participTimeCategory = as.factor(data$participTimeCategory)
 #Decision tree
 fit <- rpart(timeCategory ~ ageCategory + nationality + participTimeCategory, method="class", minbucket = 75, minsplit = 75, cp=-0.5, data=data)
 colors <- c("pink", "palegreen3", "yellow", "LightSkyBlue", "blue", "orange", "orange", "cyan", "bisque", "OrangeRed ")
