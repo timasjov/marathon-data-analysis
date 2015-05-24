@@ -12,7 +12,4 @@ library(rpart)
 library(rpart.plot)
 library(fpc)
 library(ggplot2)
-<<<<<<< HEAD
-=======
 library(pheatmap)
->>>>>>> 8db103d06b287708e79e90f7b4244364ad8070a3
