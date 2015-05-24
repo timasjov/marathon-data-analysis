@@ -30,7 +30,7 @@ legend("bottomright", xpd = TRUE, inset = c(0, 0), cex = 0.7, ncol=3, fill = col
 legend("bottomleft", xpd = TRUE, inset = c(0.45, 0), cex = 0.7, ncol=3, title="Participation (times)",
        legend = c("1: 1 - 2",
                   "2: 3 - 4",
-                  "3: 4 - 5",
-                  "4: 6 - 9",
+                  "3: 5 - 6",
+                  "4: 7 - 9",
                   "5: 9 - 17"
        ))
