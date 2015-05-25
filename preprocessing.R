@@ -89,6 +89,7 @@ colnames(splits) <- splitNames
 write.table(splits, "data/splits.txt", sep="\t", row.names=F)
 
 #Distance and population data
+distance <- c(186,305,130,53,103,123,249,49,174,157,328,186,0,86,78,71)
 participants <- c(434,6,40,43,44,103,35,54,88,56,36,755,605,114,67,71)
 population <- c(153648,9709,153312,32275,31688,61099,25513,29169,85539,34989,34485,434339,148673,31790,49210,35079)
-dist <- data.frame(counties, population, participants)
+dist <- data.frame(counties, population, distance, participants)
