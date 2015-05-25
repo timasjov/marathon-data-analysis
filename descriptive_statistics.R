@@ -131,3 +131,9 @@ ggplot(xy, aes(x=xy$x, y=xy$y, width=0.5)) +
   scale_y_datetime(limits=c(as.POSIXct('0:00',format="%H:%M"),
                             as.POSIXct('6:00',format="%H:%M")))+
   geom_hline(aes(yintercept = as.numeric(y[length(y)])), colour = "chartreuse",size=0.8)
+
+#Distance vs participants per population
+cor(dist$distance, dist$participants/dist$population, use = "complete.obs", method = "kendall")
+##Result: medium correlation between distance from Tartu and participants per population
+ggplot(dist, aes(x = distance, y = participants/population)) +
+  geom_point()
