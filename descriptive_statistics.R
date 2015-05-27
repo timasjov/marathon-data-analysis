@@ -99,6 +99,15 @@ lines(xValues, womenSpeeds, col="blue")
 axis(1, at=0:7, labels= colnames(splits))
 legend("topleft", legend = c("Men","Women"), lty=c(1,1), lwd=c(2.5,2.5), col=c("red","blue"), cex=.7)
 
+#All together
+plot(xValues, menSpeeds, type = "l", col="red", xlab="Splits", ylab = "Speed (km/h)", 
+     xaxt="n", main="Average speeds between splits", ylim=c(18,28))
+lines(xValues, womenSpeeds, col="blue")
+lines(xValues, overallSpeeds, col="forestgreen")
+axis(1, at=0:7, labels= colnames(splits))
+legend("topleft", legend = c("Men","Women","Overall"), lty=c(1,1,1), 
+       lwd=c(2.5,2.5,2.5), col=c("red","blue","forestgreen"), cex=1.7)
+
 
 #Average finish times per age group
 meanClass = function(data, class){
